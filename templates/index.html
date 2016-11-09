@@ -1,0 +1,144 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Api</title>
+	<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+	<link rel="stylesheet" href="{% static 'css/main.css' %}">
+</head>
+<body id="app">
+
+	<nav class="navbar navbar-default">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu" aria-expanded="false">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">Restaurante</a>
+			</div>
+			
+			<div class="collapse navbar-collapse navbar-right" id="menu">
+				{% if user.is_authenticated %}
+				<a href="{% url 'salir' %}" class="btn btn-default navbar-btn">
+					{{ user.username }}
+				</a>
+				{% else %}
+				<a href="{% url 'social:begin' 'facebook' %}" 
+				class="btn btn-default navbar-btn">
+				Login con facebook
+				</a>
+				{% endif %}
+			</div>
+
+		</div>
+	</nav>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-6">
+				<h3>Genial</h3>
+			</div>
+			<div class="col-sm-6 buscador-home">
+				<div class="input-group">
+					<div class="input-group-btn">
+						<button type="button" id="city"
+                                class="btn btn-default dropdown-toggle"
+                                data-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="false">Escoge la Ciudad <span class="caret"></span></button>
+						<ul class="dropdown-menu" id="ciudad">
+							{% for city in cities %}
+							<li><a href="#" id="{{ city.id }}">{{ city.name }}</a></li>
+							{% endfor %}
+						</ul>
+					</div><!-- /btn-group -->
+					<input type="text" id="buscador" class="form-control" placeholder="encuentra tu restaurante">
+				</div><!-- /input-group -->
+			</div>
+		</div>
+
+		<div class="row contenido-home">
+			<div class="col-sm-3">
+				<div class="form-group">
+					<label for="">Tipos de comida</label>
+					{% for category in categories %}
+					<div class="checkbox">
+						<label for="">
+							<input type="checkbox" id="{{ category.id }}" class="categorias"> {{ category.name }}
+						</label>
+					</div>
+					{% endfor %}
+
+				</div>
+
+				<div class="form-group">
+					<label for="">tipos de pago</label>
+					{% for payment in payments %}
+					<div class="checkbox">
+						<label for="">
+							<input type="checkbox" id="{{ payment.id }}" class="pagos"> {{ payment.name }}
+						</label>
+					</div>
+					{% endfor %}
+				</div>
+
+			</div>
+			<div class="col-sm-9">
+				<div class="list-group">
+					
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<script>
+		window.cantidad = 5;
+        window.ciudad = -1;
+        window.categoria = -1;
+        window.page = -1;
+	</script>
+
+
+	<script type="text/template" id="tplRestaurant">
+		
+		<a href="" class="list-group-item">
+			<div class="col-sm-3">
+				<img src="http://placehold.it/350x250" alt=""
+				class="media-object img-rounded img-responsive">
+			</div>
+			<div class="col-sm-6">
+				<h3>
+					<%= name %>
+				</h3>
+				<p>
+					<%= description %>
+				</p>
+			</div>
+			<div class="col-sm-3 text-center">
+				<h2> <%= tips %> <small>tips</small></h2>
+				<button type="button" class="btn btn-primary btn-lg btn-block">
+					Detalle
+				</button>
+			</div>
+		</a>
+
+	</script>
+
+	
+
+	
+	<script src="{% static 'js/jquery-1.12.3.js' %}"></script>
+	<script src="{% static 'js/bootstrap.js' %}"></script>
+	<script src="{% static 'js/underscore.js' %}"></script>
+	<script src="{% static 'js/backbone.js' %}"></script>
+	<script src="{% static 'js/backbone/models/modelos.js' %}"></script>
+	<script src="{% static 'js/backbone/collections/colecciones.js' %}"></script>
+	<script src="{% static 'js/backbone/views/vistas.js' %}"></script>
+	<script src="{% static 'js/backbone/routes/rutas.js' %}"></script>
+	<script src="{% static 'js/backbone/app.js' %}"></script>
+</body>
+</html>
